@@ -720,5 +720,100 @@ Created:         Mon May 26 22:36:11 2025
 ## 关闭console日志
 
 
+必须先获取root权限
+
+```shell
+# su
+# echo 1 > /proc/sys/kernel/printk
+```
+
+## super分区
+
+```shell
+console:/ # lsblk
+/system/bin/sh: lsblk: inaccessible or not found
+127|console:/ # blkid
+/dev/block/mmcblk0p20: UUID="c17d2064-4e63-4eaf-aed6-140b149224cf" TYPE="ext4" 
+/dev/block/mmcblk0p21: UUID="93d69580-ddb6-4923-8da0-b70b968abce0" TYPE="ext4" 
+/dev/block/mmcblk0p27: UUID="cb7ae6b1-dff1-43c7-95b6-bc2165bfb1a1" TYPE="ext4" 
+/dev/block/mmcblk0p29: UUID="3882f982-ee4e-45f8-955a-46ffc6fed80b" TYPE="ext4" 
+/dev/block/zram0: UUID="eac912a0-18cc-477c-8549-9a95d513b14c" TYPE="swap" 
+console:/ # ls -alh /dev/block/mmcblk*
+brw-rw---- 1 root   root   179,   0 1970-01-01 08:00 /dev/block/mmcblk0
+brw-rw---- 1 root   root   179,   8 1970-01-01 08:00 /dev/block/mmcblk0boot0
+brw------- 1 root   root   179,  16 1970-01-01 08:00 /dev/block/mmcblk0boot1
+brw------- 1 root   root   179,   1 1970-01-01 08:00 /dev/block/mmcblk0p1
+brw------- 1 root   root   259,   2 1970-01-01 08:00 /dev/block/mmcblk0p10
+brw-)----- 1 root   root   259,   3 1970-01-01 08:00 /dev/block/mmcblk0p11
+brw------- 1 root   root   259,   4 1970-01-01 08:00 /dev/block/mmcblk0p12
+brw------- 1 root   root   259,   5 1970-01-01 08:00 /dev/block/mmcblk0p13
+brw------- 1 root   root   259,   6 1970-01-01 08:00 /dev/block/mmcblk0p14
+brw------- 1 root   root   259,   7 1970-01-01 08:00 /dev/block/mmcblk0p15
+brw------- 1 root   root   259,   8 1970-01-01 08:00/dev/block/mmcblk0p16
+brw------- 1 root   root   259,   9 1970-01-01 08:00 /dev/block/mmcblk0p17
+brw------- 1 root   root   259,  10 1970-01-01 08:00 /dev/block/mmcblk0p18
+brw------- 1 root   root   259,  11 1970-01-01 08:00 /dev/block/mmcblk0p19
+brw------- 1 root   root   179,   2 1970-01-01 08:00 /dev/block/mmcblk0p2
+brw------- 1 root   root   259,  12 1970-01-01 08:00 /dev/block/mmcblk0p20
+brw------- 1 root   root   259,  13 1970-01-01 08:00 /dev/block/mmcblk0p21
+brw-rw---- 1 system system 259,  14 1970-01-01 08:00 /dev/block/mmcblk0p22
+brw-rw---- 1 system system 259,  15 2026-06-20 22:59 /dev/block/mmcblk0p23
+brw-------   root   root   259,  16 1970-01-01 08:00 /dev/block/mmcblk0p24
+brw-rw---- 1 system system 259,  17 1970-01-01 08:00 /dev/block/mmcblk0p25
+brw------- 1 root   root   259,  18 1970-01-01 08:00 /dev/block/mmcblk0p26
+brw------- 1 root   root   259,  19 1970-01-01 08:00 /dev/block/mmcblk0p27
+brw------- 1 root   root   259,  20 1970-01-01 08:00 /dev/block/mmcblk0p28
+brw------- 1 root   root   259,  21 1970-01-01 08:00 /dev/block/mmcblk0p29
+brw------- 1 root   root   179,   3 1970-01-01 08:00 /dev/block/mmcblk0p3
+brw------- 1 root   root   179,   4 1970-01-01 08:00 /dev/block/mmcblk0p4
+brw------- 1 root   root   179,   5 1970-01-01 08:00 /dev/block/mmcblk0p5
+brw------- 1 root   root   179,   6 1970-01-01 08:00 /dev/block/mmcblk0p6
+brw------- 1 root   root   179,   7 1970-01-01 08:00 /dev/block/mmcblk0p7
+brw------- 1 root   root   259,   0 1970-01-01 08:00 /dev/block/mmcblk0p8
+brw------- 1 root   root   259,   1 1970-01-01 08:00 /dev/block/mmcblk0p9
+console:/ # df -h
+Filesystem            Size Used Avail Use% Mounted on
+tmpfs                 7.7G 1.3M  7.7G   1% /dev
+tmpfs                 7.7G  32K  7.7G   1% /mnt
+/dev/block/mmcblk0p21  10M  80K   10M   1% /metadata
+/dev/block/dm-0       930M 930M     0 100% /
+/dev/block/dm-3       582M 582M     0 100% /vendor
+/dev/block/dm-5       276K 276K     0 100% /odm
+/dev/block/dm-1       8.0K 8.0K     0 100% /system_dlkm
+/dev/block/dm-2       525M 525M     0 100% /system_ext
+/dev/block/dm-4       181M 181M     0 1 0% /vendor_dlkm
+/dev/block/dm-6       8.0K 8.0K     0 100% /odm_dlkm
+/dev/block/dm-7       121M 121M     0 100% /product
+magisk                7.7G 2.8M  7.7G   1% /debug_ramdisk
+tmpfs                 7.7G 8.0K  7.7G   1% /apex
+tmpfs                 7.7G 480K  7.7G   1% /linkerconfig
+/dev/block/mmcblk0p20 320M 376K  320M   1% /cache
+/dev/block/mmcblk0p27  27M  15K   27M   1% /bootvideo # bootvideo的下一个就是superdata，也就是mmcblk0p28
+/dev/block/mmcblk0p29  43G 895M   43G   3% /data
+tmpfs                 7.7G    0  7.7G   0% /data_mirror
+magisk                7.7G    0  7.7G   0% /product/bin
+/dev/fuse              43G 895M   43G   3% /mnt/user/0/emulated
+
+```
+
+找不到super分区的挂载。Android 10+ 引入的动态分区（Dynamic Partitions / Super Partition）架构，super（mmcblk0p28）本身永远不会被 mount 到某个目录，所以 mount | grep mmcblk0p28必然为空。
+
+
+```shell
+console:/ # ls -l /dev/block/by-name/super                                     
+lrwxrwxrwx 1 root root 21 1970-01-01 08:00 /dev/block/by-name/super -> /dev/block/mmcblk0p28
+console:/ # ls -l /dev/block/mapper/
+total 0
+drwxr-xr-x 2 root root 200 1970-01-01 08:00 by-uuid
+lrwxrwxrwx 1 root root  15 1970-01-01 08:00 odm_a -> /dev/block/dm-5
+lrwxrwxrwx 1 root root  15 1970-01-01 08:00 odm_dlkm_a -> /dev/block/dm-6
+lrwxrwxrwx 1 root root  15 1970-01-01 08:00 product_a -> /dev/block/dm-7
+ rwxrwxrwx 1 root root  15 1970-01-01 08:00 system_a -> /dev/block/dm
+lrwxrwxrwx 1 root root  15 1970-01-01 08:00 system_dlkm_a -> /dev/block/dm-1
+lrwxrwxrwx 1 root root  15 1970-01-01 08:00 system_ext_a -> /dev/block/dm-2
+lrwxrwxrwx 1 root root  15 1970-01-01 08:00 vendor_a -> /dev/block/dm-3
+lrwxrwxrwx 1 root root  15 1970-01-01 08:00 vendor_dlkm_a -> /dev/block/dm-4
+console:/ # 
+```
 
 
