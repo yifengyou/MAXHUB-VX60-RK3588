@@ -717,15 +717,6 @@ Created:         Mon May 26 22:36:11 2025
 
 
 
-## 关闭console日志
-
-
-必须先获取root权限
-
-```shell
-# su
-# echo 1 > /proc/sys/kernel/printk
-```
 
 ## super分区
 
@@ -969,3 +960,117 @@ Group table:
 [root@hailun /data/super]# 
 
 ```
+
+上面是原始的super.img信息
+
+1. super.img解压逻辑
+
+```shell
+simg2img super.img super_raw.img
+```
+
+2. erofs镜像修改
+
+这种镜像是只读的，无法修改。唯一的方式就是只读拷贝，修改，重新打包
+
+- 只读拷贝
+
+```shell
+erofsfuse system_a.img /tmp/system_extract
+```
+- 忽略修改逻辑
+
+- 打包逻辑
+
+```shell
+mkfs.erofs -zlz4hc,9 system_new.img /tmp/system_extract
+```
+
+2. 打包
+
+需要与super.img信息尽可能接近
+
+```shell
+#!/bin/bash
+
+set -x
+
+# 获取各分区真实大小（必须是 raw 镜像！）
+SYSTEM_SIZE=$(stat -c%s system_new.img)
+SYSTEM_DLKM_SIZE=$(stat -c%s system_dlkm_a.img)
+SYSTEM_EXT_SIZE=$(stat -c%s system_ext_a.img)
+VENDOR_SIZE=$(stat -c%s vendor_a.img)
+VENDOR_DLKM_SIZE=$(stat -c%s vendor_dlkm_a.img)
+ODM_SIZE=$(stat -c%s odm_a.img)
+ODM_DLKM_SIZE=$(stat -c%s odm_dlkm_a.img)
+PRODUCT_SIZE=$(stat -c%s product_a.img)
+
+# 生成 raw super 镜像（注意：不加 --sparse）
+lpmake \
+    --metadata-size 65536 \
+    --metadata-slots 3 \
+    --super-name super \
+    --device-size 12880707584 \
+    --group rockchip_dynamic_partitions_a:12876513280 \
+    --group rockchip_dynamic_partitions_b:12876513280 \
+    --partition system_a:readonly:${SYSTEM_SIZE}:rockchip_dynamic_partitions_a \
+    --partition system_dlkm_a:readonly:${SYSTEM_DLKM_SIZE}:rockchip_dynamic_partitions_a \
+    --partition system_ext_a:readonly:${SYSTEM_EXT_SIZE}:rockchip_dynamic_partitions_a \
+    --partition vendor_a:readonly:${VENDOR_SIZE}:rockchip_dynamic_partitions_a \
+    --partition vendor_dlkm_a:readonly:${VENDOR_DLKM_SIZE}:rockchip_dynamic_partitions_a \
+    --partition odm_a:readonly:${ODM_SIZE}:rockchip_dynamic_partitions_a \
+    --partition odm_dlkm_a:readonly:${ODM_DLKM_SIZE}:rockchip_dynamic_partitions_a \
+    --partition product_a:readonly:${PRODUCT_SIZE}:rockchip_dynamic_partitions_a \
+    --image system_a=system_new.img \
+    --image system_dlkm_a=system_dlkm_a.img \
+    --image system_ext_a=system_ext_a.img \
+    --image vendor_a=vendor_a.img \
+    --image vendor_dlkm_a=vendor_dlkm_a.img \
+    --image odm_a=odm_a.img \
+    --image odm_dlkm_a=odm_dlkm_a.img \
+    --image product_a=product_a.img \
+    --output super_raw_new.img
+
+# 转为 sparse 格式（供 fastboot 使用）
+img2simg super_raw_new.img super_new.img
+
+ls -alh super_raw_new.img super_new.img
+```
+
+
+
+
+## HDMI声音问题
+
+用哪个hdmi就要配置对应扬声器就可以了
+
+![img.png](img.png)
+
+
+
+
+
+## 关闭console日志
+
+
+必须先获取root权限
+
+```shell
+
+su
+
+echo 1 > /proc/sys/kernel/printk
+
+```
+
+
+
+
+
+
+
+
+
+
+
+---
