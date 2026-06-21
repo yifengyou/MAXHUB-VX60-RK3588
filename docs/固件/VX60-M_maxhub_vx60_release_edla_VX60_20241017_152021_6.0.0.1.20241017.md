@@ -817,3 +817,155 @@ console:/ #
 ```
 
 
+dd if=/dev/block/by-name/super of=super.img bs=4M conv=sparse status=progress
+
+
+
+## userdata备份
+
+* 最好的方式是在recovery中备份
+* dd备份文件体积48G+，太大了
+
+
+---
+
+su
+echo 1 > /proc/sys/kernel/printk
+getprop ro.adb.secure
+
+
+## 重构super镜像
+
+```shell
+# lpdump super_raw.img 
+Slot 0:
+Metadata version: 10.2
+Metadata size: 1488 bytes
+Metadata max size: 65536 bytes
+Metadata slot count: 3
+Header flags: virtual_ab_device
+Partition table:
+------------------------
+  Name: system_a
+  Group: rockchip_dynamic_partitions_a
+  Attributes: readonly
+  Extents:
+    0 .. 1940495 linear super 2048
+------------------------
+  Name: system_b
+  Group: rockchip_dynamic_partitions_b
+  Attributes: readonly
+  Extents:
+------------------------
+  Name: system_dlkm_a
+  Group: rockchip_dynamic_partitions_a
+  Attributes: readonly
+  Extents:
+    0 .. 679 linear super 1943552
+------------------------
+  Name: system_dlkm_b
+  Group: rockchip_dynamic_partitions_b
+  Attributes: readonly
+  Extents:
+------------------------
+  Name: system_ext_a
+  Group: rockchip_dynamic_partitions_a
+  Attributes: readonly
+  Extents:
+    0 .. 1095287 linear super 1945600
+------------------------
+  Name: system_ext_b
+  Group: rockchip_dynamic_partitions_b
+  Attributes: readonly
+  Extents:
+------------------------
+  Name: vendor_a
+  Group: rockchip_dynamic_partitions_a
+  Attributes: readonly
+  Extents:
+    0 .. 1214591 linear super 3041280
+------------------------
+  Name: vendor_b
+  Group: rockchip_dynamic_partitions_b
+  Attributes: readonly
+  Extents:
+------------------------
+  Name: vendor_dlkm_a
+  Group: rockchip_dynamic_partitions_a
+  Attributes: readonly
+  Extents:
+    0 .. 377991 linear super 4257792
+------------------------
+  Name: vendor_dlkm_b
+  Group: rockchip_dynamic_partitions_b
+  Attributes: readonly
+  Extents:
+------------------------
+  Name: odm_a
+  Group: rockchip_dynamic_partitions_a
+  Attributes: readonly
+  Extents:
+    0 .. 727 linear super 4636672
+------------------------
+  Name: odm_b
+  Group: rockchip_dynamic_partitions_b
+  Attributes: readonly
+  Extents:
+------------------------
+  Name: odm_dlkm_a
+  Group: rockchip_dynamic_partitions_a
+  Attributes: readonly
+  Extents:
+    0 .. 679 linear super 4638720
+------------------------
+  Name: odm_dlkm_b
+  Group: rockchip_dynamic_partitions_b
+  Attributes: readonly
+  Extents:
+------------------------
+  Name: product_a
+  Group: rockchip_dynamic_partitions_a
+  Attributes: readonly
+  Extents:
+    0 .. 251679 linear super 4640768
+------------------------
+  Name: product_b
+  Group: rockchip_dynamic_partitions_b
+  Attributes: readonly
+  Extents:
+------------------------
+Super partition layout:
+------------------------
+super: 2048 .. 1942544: system_a (1940496 sectors)
+super: 1943552 .. 1944232: system_dlkm_a (680 sectors)
+super: 1945600 .. 3040888: system_ext_a (1095288 sectors)
+super: 3041280 .. 4255872: vendor_a (1214592 sectors)
+super: 4257792 .. 4635784: vendor_dlkm_a (377992 sectors)
+super: 4636672 .. 4637400: odm_a (728 sectors)
+super: 4638720 .. 4639400: odm_dlkm_a (680 sectors)
+super: 4640768 .. 4892448: product_a (251680 sectors)
+------------------------
+Block device table:
+------------------------
+  Partition name: super
+  First sector: 2048
+  Size: 12880707584 bytes
+  Flags: none
+------------------------
+Group table:
+------------------------
+  Name: default
+  Maximum size: 0 bytes
+  Flags: none
+------------------------
+  Name: rockchip_dynamic_partitions_a
+  Maximum size: 12876513280 bytes
+  Flags: none
+------------------------
+  Name: rockchip_dynamic_partitions_b
+  Maximum size: 12876513280 bytes
+  Flags: none
+------------------------
+[root@hailun /data/super]# 
+
+```
