@@ -147,14 +147,14 @@ md5sum arch/arm64/boot/dts/rockchip/rk3588-owl-ai-box-plus-v10.dtb
 cp -a arch/arm64/boot/dts/rockchip/rk3588-owl-ai-box-plus-v10.dtb ${WORKDIR}/release/
 
 # release config
-cp .config ${WORKDIR}/release/config-5.10.66-kdev
-ls -alh ${WORKDIR}/release/config-5.10.66-kdev
-md5sum ${WORKDIR}/release/config-5.10.66-kdev
+cp .config ${WORKDIR}/release/config-5.10.209-kdev
+ls -alh ${WORKDIR}/release/config-5.10.209-kdev
+md5sum ${WORKDIR}/release/config-5.10.209-kdev
 
 # release system map
-cp System.map ${WORKDIR}/release/System.map-5.10.66-kdev
-ls -alh ${WORKDIR}/release/System.map-5.10.66-kdev
-md5sum ${WORKDIR}/release/System.map-5.10.66-kdev
+cp System.map ${WORKDIR}/release/System.map-5.10.209-kdev
+ls -alh ${WORKDIR}/release/System.map-5.10.209-kdev
+md5sum ${WORKDIR}/release/System.map-5.10.209-kdev
 
 # release kernel modules
 if [ -d kos/lib/modules ]; then
