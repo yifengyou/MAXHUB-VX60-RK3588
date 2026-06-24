@@ -117,7 +117,7 @@ make ARCH=arm64 \
   dtbs \
   -j$(nproc)
 
-ls -alh arch/arm64/boot/dts/rockchip/rk3588-maxhub-vx60.dtb.dtb
+ls -alh arch/arm64/boot/dts/rockchip/rk3588-maxhub-vx60.dtb
 
 make ARCH=arm64 \
   CROSS_COMPILE=aarch64-linux-gnu- \
@@ -148,9 +148,9 @@ md5sum arch/arm64/boot/Image
 cp -a arch/arm64/boot/Image ${WORKDIR}/release/
 
 # release dtb
-ls -alh ./arch/arm64/boot/dts/rockchip/rk3588-maxhub-vx60.dtb.dtb
-md5sum ./arch/arm64/boot/dts/rockchip/rk3588-maxhub-vx60.dtb.dtb
-cp -a ./arch/arm64/boot/dts/rockchip/rk3588-maxhub-vx60.dtb.dtb ${WORKDIR}/release/
+ls -alh ./arch/arm64/boot/dts/rockchip/rk3588-maxhub-vx60.dtb
+md5sum ./arch/arm64/boot/dts/rockchip/rk3588-maxhub-vx60.dtb
+cp -a ./arch/arm64/boot/dts/rockchip/rk3588-maxhub-vx60.dtb ${WORKDIR}/release/
 
 # release config
 cp .config ${WORKDIR}/release/config-6.1-kdev
