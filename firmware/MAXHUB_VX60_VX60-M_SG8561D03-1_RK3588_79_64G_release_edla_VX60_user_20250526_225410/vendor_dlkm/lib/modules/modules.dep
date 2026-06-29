@@ -1,0 +1,15 @@
+/vendor/lib/modules/stmmac.ko:
+/vendor/lib/modules/bifrost_kbase.ko:
+/vendor/lib/modules/dwmac-ipq806x.ko: /vendor/lib/modules/stmmac-platform.ko /vendor/lib/modules/stmmac.ko
+/vendor/lib/modules/gc4c33.ko:
+/vendor/lib/modules/dhd_static_buf.ko:
+/vendor/lib/modules/dwmac-qcom-ethqos.ko: /vendor/lib/modules/stmmac-platform.ko /vendor/lib/modules/stmmac.ko
+/vendor/lib/modules/gc2145.ko:
+/vendor/lib/modules/dwmac-sun8i.ko: /vendor/lib/modules/stmmac-platform.ko /vendor/lib/modules/stmmac.ko
+/vendor/lib/modules/gc2385.ko:
+/vendor/lib/modules/dwmac-sunxi.ko: /vendor/lib/modules/stmmac-platform.ko /vendor/lib/modules/stmmac.ko
+/vendor/lib/modules/dwmac-rockchip.ko: /vendor/lib/modules/stmmac-platform.ko /vendor/lib/modules/stmmac.ko
+/vendor/lib/modules/gc8034.ko:
+/vendor/lib/modules/dwmac-generic.ko: /vendor/lib/modules/stmmac-platform.ko /vendor/lib/modules/stmmac.ko
+/vendor/lib/modules/stmmac-platform.ko: /vendor/lib/modules/stmmac.ko
+/vendor/lib/modules/bcmdhd.ko: /vendor/lib/modules/dhd_static_buf.ko
