@@ -90,8 +90,11 @@ root步骤
 
 1. 刷vbmeta-hack
 
+```
+fastboot flashing unlock
 fastboot flash vbmeta_a vbmeta-hack.img
 fastboot flash vbmeta_b vbmeta-hack.img
+```
 
 其中vbmeta-hack生成步骤
 
