@@ -88,10 +88,18 @@ a94ba521378b675b741aa478e58989dc *init_boot_b.img
 
 root步骤
 
-1. 刷vbmeta-hack
+1. 必须先解锁bootloader
+
+原生android系统，在adb下执行reboot bootloader可以进入fastboot模式。在fastboot模式解锁即可
+
+```shell
+fastboot flashing unlock
+```
+
+2. 刷vbmeta-hack
 
 ```
-fastboot flashing unlock
+
 fastboot flash vbmeta_a vbmeta-hack.img
 fastboot flash vbmeta_b vbmeta-hack.img
 ```
@@ -103,7 +111,7 @@ fastboot flash vbmeta_b vbmeta-hack.img
 ```
 建议基于原始vbmeta.img-origin生成vbmeta-hack.img
 
-2. 刷init_boot补丁
+3. 刷init_boot补丁
 
 fastboot --disable-verity --disable-verification flash init_boot_a magisk_patched-30700_DtzZR.img
 fastboot --disable-verity --disable-verification flash init_boot_b magisk_patched-30700_DtzZR.img
