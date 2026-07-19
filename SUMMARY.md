@@ -6,4 +6,5 @@
 * [固件](docs/固件.md)
     * [原厂工程固件](docs/固件/原厂工程固件.md)
     * [工行固件](docs/固件/工行固件.md)
+    * [OpenWrt LEDE系统](docs/固件/openwrt.md)
 
