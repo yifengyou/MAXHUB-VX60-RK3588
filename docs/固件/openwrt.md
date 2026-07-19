@@ -5,7 +5,7 @@
 ## 登陆方法
 
 * 参考： <https://docs.channel.io/nicemobile-v6cf/ja/articles/%E5%AE%9F%E6%96%BD%E6%89%8B%E9%A0%86-798b5f63>
-* <http://192.168.153.1>
+* web登陆地址：<http://192.168.153.1>
 * 账号密码： root/menu1379
 * 支持ssh登陆
 
